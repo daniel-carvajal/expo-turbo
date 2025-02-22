@@ -1,10 +1,59 @@
-# Welcome to your Expo app 👋
+# CPP Turbomodules with Expo
+1) Make sure Turbomodule folder exists
+2) `npm install ./RTNCalculator`
+3) Codegen script: `node node_modules/react-native/scripts/generate-codegen-artifacts.js --targetPlatform ios --path ./ --outputPath ./RTNCalculator/generated/`
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+### Notes
+You need to use Objective-C++ (.mm) as a bridge between React Native's Objective-C world and C++ because React Native's iOS layer is built on Objective-C. Let me show the complete, exact modification:
 
-1. Install dependencies
+
+#### Considerations when using C++
+Import the C++ header with #import "Calculator.hpp"
+Replace the direct calculation with a call to the C++ implementation:
+
+with 
+```objective-c
+// NSNumber *result = [[NSNumber alloc] initWithInteger:a+b]; // Objective-C implementation
+double cppResult = calculator::Calculator::add(a, b); // C++ implementation
+NSNumber *result = @(cppResult);  // @() is shorthand for numberWithDouble
+resolve(result);
+```
+
+For iOS you always need to:
+
+Use .mm extension for files that mix Objective-C and C++
+Bridge between Objective-C and C++ in these files
+Keep pure C++ code in .cpp files
+Use the Objective-C++ files to connect React Native's Objective-C layer with your C++ code
+
+This is because:
+
+React Native's iOS runtime is written in Objective-C
+The JSI (JavaScript Interface) expects Objective-C objects
+Native modules must conform to Objective-C protocols
+
+
+
+#### Example Setup
+
+```
+RTNCalculator/
+├── ios
+│   ├── Calculator.cpp
+│   ├── Calculator.hpp
+│   ├── RTNCalculator.h
+│   └── RTNCalculator.mm
+├── js
+│   └── NativeRTNCalculator.ts
+├── generated (auto-generated with Codegen script)
+├── package.json
+└── rtn-calculator.podspec
+```
+
+## Launching Expo app
+
+1. Install dependencies (if you haven't already)
 
    ```bash
    npm install
@@ -13,38 +62,5 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-    npx expo start
+    npx expo run:ios
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
