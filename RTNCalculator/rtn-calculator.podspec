@@ -13,7 +13,11 @@ Pod::Spec.new do |s|
   s.author          = package["author"]
   s.source          = { :git => package["repository"], :tag => "#{s.version}" }
 
-  s.source_files    = "ios/**/*.{h,m,mm,swift}"
+  s.source_files = "ios/**/*.{h,m,mm,cpp,hpp, swift}"
 
+  s.pod_target_xcconfig = {
+    "CLANG_CXX_LANGUAGE_STANDARD" => "c++17",  # Specify C++ version
+  }
+  
   install_modules_dependencies(s)
 end
