@@ -3,6 +3,8 @@
 2) Run `npm install ./RTNCalculator`. This will added RTNCalculator as a dependency in your app's package.json like `"rtn-calculator": "file:./RTNCalculator"`. The name "rtn-calculator" comes from the name field in the `RTNCalculator/package.json` file.
 3) Codegen script: from your main app's root directory (outside RTNCalculator), where your app's package.json is located, run: `node node_modules/react-native/scripts/generate-codegen-artifacts.js --targetPlatform ios --path ./ --outputPath ./RTNCalculator/generated/`. Note, for codegen to find your RTNCalculator module, it needs to be registered as a dependency in your app's package.json which we did with the `npm install ./RTNCalculator` command.
 
+## Usefule scripts
+- `npm run build-turbo` to rebuild Turbo Modules after editing. See package.json for details. 
 
 ### Notes
 You need to use Objective-C++ (.mm) as a bridge between React Native's Objective-C world and C++ because React Native's iOS layer is built on Objective-C. Let me show the complete, exact modification:

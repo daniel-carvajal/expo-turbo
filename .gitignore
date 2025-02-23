@@ -35,6 +35,10 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
-ios/
-android/
+# rn build
+ios/*
+android/*
+
+# turbomodule source
+!RTNCalculator/ios/
+!RTNCalculator/android/

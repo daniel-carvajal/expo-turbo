@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
+    "rebuild-ios": "sh rebuild-ios.sh",
+    "codegen": "node node_modules/react-native/scripts/generate-codegen-artifacts.js --targetPlatform ios --path ./ --outputPath ./RTNUmap/generated/",
+    "xcode": "open ios/expoturbo.xcworkspace",
+    "build-turbo": "npm run rebuild-ios && npm run codegen",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
