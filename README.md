@@ -1,7 +1,7 @@
 # CPP Turbomodules with Expo
 1) Make sure Turbomodule folder exists
-2) `npm install ./RTNCalculator`
-3) Codegen script: `node node_modules/react-native/scripts/generate-codegen-artifacts.js --targetPlatform ios --path ./ --outputPath ./RTNCalculator/generated/`
+2) Run `npm install ./RTNCalculator`. This will added RTNCalculator as a dependency in your app's package.json like `"rtn-calculator": "file:./RTNCalculator"`. The name "rtn-calculator" comes from the name field in the `RTNCalculator/package.json` file.
+3) Codegen script: from your main app's root directory (outside RTNCalculator), where your app's package.json is located, run: `node node_modules/react-native/scripts/generate-codegen-artifacts.js --targetPlatform ios --path ./ --outputPath ./RTNCalculator/generated/`. Note, for codegen to find your RTNCalculator module, it needs to be registered as a dependency in your app's package.json which we did with the `npm install ./RTNCalculator` command.
 
 
 ### Notes
@@ -64,3 +64,12 @@ RTNCalculator/
    ```bash
     npx expo run:ios
    ```
+
+#### More info on Codegen
+So when you run the codegen command from your app's root, it:
+
+1) Reads your app's package.json
+2) Finds the `rtn-calculator` dependency
+3) Follows the path to `./RTNCalculator`
+4) Generates code based on your module's specs
+5) Places the output in ./RTNCalculator/generated/
